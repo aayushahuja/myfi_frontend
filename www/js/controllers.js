@@ -12,21 +12,15 @@ angular.module('app.controllers', [])
 })
    
 .controller('addWiFiCtrl', function($scope) {
-
-
  	var set_ssid = function(data){
-
 		//alert("hi " + JSON.stringify(data));
 		$scope.ssid = data;
 	};
-
 	var set_bssid = function(data){
-
 		//alert("hi " + JSON.stringify(data));
 		$scope.bssid = data;
 	};
 	var set_network = function(data){
-
 		alert("hi " + JSON.stringify(data));
 		$scope.network = data;
 	};
@@ -34,7 +28,7 @@ angular.module('app.controllers', [])
   $scope.change = function() {
         alert($scope.share_router);
   };
-   window.WifiWizard.getCurrentSSID(function(data) {	
+  window.WifiWizard.getCurrentSSID(function(data) {	
         //this.a.demo=JSON.stringify(data);
         //document.write(JSON.stringify(data));
         //alert(JSON.stringify(data));
@@ -43,19 +37,14 @@ angular.module('app.controllers', [])
     }, function(err) {
         //$scope.demo=JSON.stringify(err);
     }); 
-   .click(function() {
-    // this function will get executed every time the #home element is clicked (or tab-spacebar changed)
-    if($(this).is(":checked")) // "this" refers to the element that fired the event
-    {
-        alert('home is checked');
-    }
-});
+   
+
 
    // onSuccess Callback
 // This method accepts a Position object, which contains the
 // current GPS coordinates
 //
-var onSuccess = function(position) {
+  var onSuccess = function(position) {
     alert('Latitude: '          + position.coords.latitude          + '\n' +
           'Longitude: '         + position.coords.longitude         + '\n' +
           'Altitude: '          + position.coords.altitude          + '\n' +
@@ -73,7 +62,7 @@ var onSuccess = function(position) {
         center: latLong,
         zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+  };
 
     //var map = new google.maps.Map(document.getElementById("map"), mapOptions);
     //var div = document.getElementById("map_canvas");
@@ -81,14 +70,14 @@ var onSuccess = function(position) {
     //map.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
 
     //alert(map);
-    var marker = new google.maps.Marker({
-          position: latLong,
-          map: map,
-          title: 'my location'
-      });
+  var marker = new google.maps.Marker({
+      position: latLong,
+      map: map,
+      title: 'my location'
+  });
 };
 
-function onMapReady() {
+  function onMapReady() {
       var button = document.getElementById("button");
       button.addEventListener("click", onBtnClicked, false);
     }
@@ -160,5 +149,5 @@ $scope.$on('$ionicView.enter', function() {
 */    
 	});
 
-});
+}]);
  
