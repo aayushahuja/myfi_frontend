@@ -25,12 +25,21 @@ angular.module('app.controllers', [])
 		$scope.network = data;
 	};
 
-  $scope.change = function(val) {
-      if( val == 'true'){
-        $scope.share_router_state = val;
+  $scope.change = function(form) {
+      alert(JSON.stringify(form.val));
+      $scope.share_router_state = 'form.val:' + String(form.val) + ' type: ' + typeof form.val +  ' comparison :' + String(form.val).localeCompare("true") + '  ' + "true".localeCompare(String(form.val));
+      //if( "true".localeCompare(String(form.val)) == 0){
+      if(form.val == 'true'){  
+        router = [{
+                  "ssid"    :$scope.ssid,
+                  "bssid"   :$scope.ssid,
+                  "password":form.pass,
+                  }];
+        $scope.share_router_state = "h" + JSON.stringify(router);
+
       }
       else{
-        $scope.share_router_state = '';
+//        $scope.share_router_state = 'form.val:' + String(form.val) 'comparison :' + String(form.val).localeCompare('true');
       };  
   };
 

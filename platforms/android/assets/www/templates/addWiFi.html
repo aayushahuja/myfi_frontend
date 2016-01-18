@@ -8,7 +8,7 @@
       </ion-item>
     </ion-list>
 -->    
-    <div class="list card">
+    <div ng-model="form" class="list card">
 
   <div class="item item-avatar" ng-model="network">
     <img src="img/avatar.jpg">
@@ -18,12 +18,13 @@
 
 
   <div class="list">
-  <label class="item item-input item-floating-label">
-    <span class="input-label">Password</span>
-    <input ng-model="password" type="Password" placeholder="Password">
-  </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Password</span>
+      <input ng-model="form.pass" type="Password" placeholder="Password"/>
+      {{pass}}
+    </label>
   
-</div>
+  </div>
 
 
 
@@ -42,7 +43,7 @@
      Start sharing
      <label class="toggle toggle-balanced">
 
-       <input type="checkbox" ng-model="share_router" ng-change="change(share_router)" ng-true-value="'true'" ng-false-value="'false'" >
+       <input type="checkbox" ng-model="form.val" ng-change="change(form)" ng-true-value="'true'" ng-false-value="'false'" >
        <div class="track">
          <div class="handle" />
        </div>
@@ -52,7 +53,7 @@
   
 </div>
 <div ng-model="share_router_state">
-  hi : {{share_router_state}}
+  sharing : {{share_router_state}}
 </div>
 <div style="width:100%;height:400px" id="map_canvas"></div>
 <button id="button">Full Screen</button>
