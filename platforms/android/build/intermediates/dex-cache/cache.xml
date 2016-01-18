@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/aayush/Documents/projects/ionic/myfi_frontend/platforms/android/build/intermediates/exploded-aar/android/CordovaLib/unspecified/debug/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a318f0c607bb84ca6813e7a9445fb81ed6e45b7d">
+        <dex dex="/Users/aayush/Documents/projects/ionic/myfi_frontend/platforms/android/build/intermediates/pre-dexed/debug/classes-c41ed04a598829e92d20845fb471dff842ed09e4.jar" />
+    </item>
+
+</items>

@@ -1,0 +1,34 @@
+<ion-view title="Connect" hide-nav-bar="true" has-header="false">
+
+
+<div class="tabs-striped tabs-background-positive tabs-color-light">
+    <div class="tabs">
+      <a class="tab-item active" href="#">
+        <i class="icon ion-home"></i>
+         Available Wifi
+      </a>
+      <a class="tab-item" href="#/sideMenu/addWifi">
+        <i class="icon ion-ios-location"></i>
+        Download Passwords
+      </a>
+      
+    </div>
+  </div>
+
+
+<ion-content overflow-scroll="true">
+<div class="list" ng-repeat="router in routers">
+          
+    <a class="item item-avatar" href="#">
+      <img src="img/wifi-icon-1.png"></img>  
+      <h2>{{router.SSID}}</h2>
+      <p>{{router.level}}</p>
+    </a>
+
+    </div>
+
+</ion-content>
+
+
+ 
+</ion-view>
