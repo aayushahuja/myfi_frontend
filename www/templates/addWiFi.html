@@ -41,16 +41,19 @@
 <li class="item item-toggle">
      Start sharing
      <label class="toggle toggle-balanced">
-       <input type="checkbox" ng-model="share_router" ng-change="change()" >
+
+       <input type="checkbox" ng-model="share_router" ng-change="change(share_router)" ng-true-value="'true'" ng-false-value="'false'" >
        <div class="track">
-         <div class="handle"></div>
+         <div class="handle" />
        </div>
      </label>
   </li>
 </ul>
   
 </div>
-
+<div ng-model="share_router_state">
+  sharing : {{share_router_state}}
+</div>
 <div style="width:100%;height:400px" id="map_canvas"></div>
 <button id="button">Full Screen</button>
 

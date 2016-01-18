@@ -25,9 +25,16 @@ angular.module('app.controllers', [])
 		$scope.network = data;
 	};
 
-  $scope.change = function() {
-        alert($scope.share_router);
+  $scope.change = function(val) {
+      if( val == 'true'){
+        $scope.share_router_state = val;
+        
+      }
+      else{
+        $scope.share_router_state = '';
+      };  
   };
+
   window.WifiWizard.getCurrentSSID(function(data) {	
         //this.a.demo=JSON.stringify(data);
         //document.write(JSON.stringify(data));
@@ -113,7 +120,7 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
    
 .controller('availableWiFiCtrl', ['$scope','$http','Routers', function($scope, $http, Routers) {
 $scope.$on('$ionicView.enter', function() {
-/*
+
 	var show_data = function(data){
 		$scope.routers = data;
 	};
@@ -139,6 +146,7 @@ $scope.$on('$ionicView.enter', function() {
           filter_routers(db_data);
        });
 
+      alert("scanned_routers: " + JSON.stringify(scan_data)); 
       alert("filtered_routers: " + JSON.stringify(filtered_routers));
       show_data(filter_routers);
         //alert($scope);
@@ -146,7 +154,7 @@ $scope.$on('$ionicView.enter', function() {
         //$scope.demo=JSON.stringify(err);
     })
 
-*/    
+   
 	});
 
 }]);
