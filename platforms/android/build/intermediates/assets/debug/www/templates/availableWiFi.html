@@ -15,14 +15,13 @@
     </div>
   </div>
 
-
 <ion-content overflow-scroll="true">
-<div class="list" ng-repeat="router in routers">
+<div class="list" ng-repeat="router in routers track by $index">
           
     <a class="item item-avatar" href="#">
       <img src="img/wifi-icon-1.png"></img>  
-      <h2>{{router[0].SSID}}</h2>
-      <p>{{router[0].level}}</p>
+      <h2>{{router.SSID}}</h2>
+      <p>{{router.level}}</p>
     </a>
 
     </div>

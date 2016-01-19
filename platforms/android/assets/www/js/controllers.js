@@ -140,13 +140,20 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
 $scope.$on('$ionicView.enter', function() {
 
 	var show_data = function(data,scan_data){
-    document.write(JSON.stringify(data) + '\n\n' + JSON.stringify(scan_data));
+    //document.write(JSON.stringify(data) + '\n\n' + JSON.stringify(scan_data));
     alert('data: ' + JSON.stringify(data));
-
+    data2 = [];
+    data2.push({'SSID':'aay'});
+    data2.push(data[0]);
+    data2.push(data[1]);
+    data.push({'SSID':'aay'});
+    alert(JSON.stringify(data2));
 		$scope.routers = data;
-    for(var i=0; i < data.length; i++){
+    //$scope.a1 = data;
+    /*for(var i=0; i < data.length; i++){
       alert(data[i].SSID);
     };
+    */
 	};
 
    window.WifiWizard.getScanResults(function(scan_data) {	
