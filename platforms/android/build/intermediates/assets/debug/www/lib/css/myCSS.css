@@ -3,3 +3,7 @@ ion-item {
    border-bottom: none;
    color: 'red';
 }
+
+.mynavbar{
+  height: 50px !important;
+}

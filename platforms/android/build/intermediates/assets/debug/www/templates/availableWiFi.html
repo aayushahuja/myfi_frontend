@@ -1,4 +1,4 @@
-<ion-view title="Connect" hide-nav-bar="true" has-header="false">
+<ion-view title="Connect">
 
 
 <div class="tabs-striped tabs-background-positive tabs-color-light">
@@ -16,7 +16,7 @@
   </div>
 
 <ion-content overflow-scroll="true">
-<div class="list" ng-repeat="router in routers track by $index">
+<div class="list card" ng-repeat="router in routers track by $index">
           
     <a class="item item-avatar" ng-click="router_clicked(router,$index) "href="#">
       <img src="img/wifi-icon-1.png"></img>  
