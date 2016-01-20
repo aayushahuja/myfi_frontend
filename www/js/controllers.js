@@ -267,10 +267,20 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
   };
 
+  var show_scan_all_data = function(data){
+    $scope.scan_routers = data;
+    //$localstorage.setObject("filtered_scan_routers", data.scan);
+    //$localstorage.setObject("filtered_db_routers", data.db);
+    /*alert("localstorage1: " + JSON.stringify($localstorage.getObject("filtered_scan_routers")));*/
+    //filtered_routers = data;
+
+  };
+
   cordova.plugins.hotspot.scanWifiByLevel(
    function (scan_data) {
        // array of results 
        //alert(JSON.stringify(scan_data));
+
        var filtered_routers =[];
        filtered_routers.scan = [];
        filtered_routers.db   = [];
@@ -309,7 +319,7 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
         show_data(data);
       };
      
-
+      show_scan_all_data(scan_data);
    },function (err) {
        // error 
    }

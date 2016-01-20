@@ -31,17 +31,35 @@
 </div>
 
 <ion-content overflow-scroll="true" class="has-subheader has-header has-footer">
-
-
-<div class="list card" ng-repeat="router in routers track by $index">
+  <div class="list">
+    <div class="item">
           
+    </div> 
+    <div class="item item-divider">
+          Myfi Registered
+    </div>  
+  </div>  
+<div class="list card" ng-repeat="router in routers track by $index">
+        
     <a class="item item-avatar" ng-click="router_clicked(router,$index) "href="#">
       <img src="img/wifi-icon-1.png"></img>  
       <h2>{{router.SSID}}</h2>
       <p>Last seen speed ( 17/01/2016 ) : 2.3Mbps</p>
     </a>
-
+    
+</div>
+<div class="item item-divider">
+     Wifi Scan 
     </div>
+
+<div class="list card" ng-repeat="router in scan_routers track by $index">
+    
+    <a class="item item-avatar" ng-click="" href="#">
+      <img src="img/wifi-icon-1.png"></img>  
+      <h2>{{router.SSID}}</h2>
+      <p>Click to register..</p>
+    </a>
+</div>
 
 </ion-content>
 

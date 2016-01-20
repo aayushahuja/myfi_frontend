@@ -24,4 +24,5 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 	//console.log(md);
 //    WifiWizard.startScan();	
   });
+  //alert('hi');
 })
