@@ -8,22 +8,23 @@
       </ion-item>
     </ion-list>
 -->    
-    <div class="list card">
+    <div ng-model="form" class="list card">
 
-  <div class="item item-avatar" ng-model="network">
+  <div class="item item-avatar">
     <img src="img/avatar.jpg">
     <h2 ng-model="ssid">{{ssid}}</h2>
-    <p>network.BSSID}} , network.BSSID}}</p>
+    <p ng-model="ssid_copy">{{ssid_copy}} , {{ssid_copy}}</p>
   </div>
 
 
   <div class="list">
-  <label class="item item-input item-floating-label">
-    <span class="input-label">Password</span>
-    <input type="Password" placeholder="Password">
-  </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Password</span>
+      <input ng-model="form.pass" type="Password" placeholder="Password"/>
+      {{pass}}
+    </label>
   
-</div>
+  </div>
 
 
 
@@ -36,23 +37,31 @@
   
 </div>
 -->
+<div class="item range range-balanced">
+  <i class="icon ion-ios-circle-outline"></i>
+  <input type="range" name="volume" min="0" max="100" value="20">
+  <i class="icon ion-ios-circle-filled"></i>
+</div>
 
 <ul class="item list assertive">
 <li class="item item-toggle">
      Start sharing
      <label class="toggle toggle-balanced">
-       <input type="checkbox">
+
+       <input type="checkbox" ng-model="form.val" ng-change="change(form)" ng-true-value="'true'" ng-false-value="'false'" >
        <div class="track">
-         <div class="handle"></div>
+         <div class="handle" />
        </div>
      </label>
   </li>
 </ul>
   
 </div>
-
+<!--div ng-model="share_router_state">
+  sharing {{share_router_state}}
+</div>
 <div style="width:100%;height:400px" id="map_canvas"></div>
-<button id="button">Full Screen</button>
+<button id="button">Full Screen</button-->
 
 </ion-content>
 </ion-view>

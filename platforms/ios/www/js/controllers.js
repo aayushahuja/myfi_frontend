@@ -10,31 +10,58 @@ angular.module('app.controllers', [])
 .controller('signupCtrl', function($scope) {
 
 })
-   
-.controller('addWiFiCtrl', function($scope) {
+.controller('account', function($scope) {
 
+})   
 
+.controller('addWiFiCtrl', ['$scope', 'Routers', function($scope, Routers) {
  	var set_ssid = function(data){
-
 		//alert("hi " + JSON.stringify(data));
-		$scope.ssid = data;
+		$scope.ssid = data.replace(/^"(.*)"$/, '$1');
+    $scope.ssid_copy = data.replace(/^"(.*)"$/, '$1');
 	};
-
 	var set_bssid = function(data){
-
 		//alert("hi " + JSON.stringify(data));
 		$scope.bssid = data;
 	};
 	var set_network = function(data){
-
-		alert("hi " + JSON.stringify(data));
+		//alert("hi " + JSON.stringify(data));
 		$scope.network = data;
 	};
 
-   window.WifiWizard.getCurrentSSID(function(data) {	
+  $scope.change = function(form) {
+      //alert(JSON.stringify(form.val));
+      
+      //if( "true".localeCompare(String(form.val)) == 0){
+      if(form.val == 'true'){  
+
+        router = [{
+                  "ssid"    :$scope.ssid,
+                  "bssid"   :$scope.ssid,
+                  "password":form.pass,
+                  }];
+        $scope.share_router_state = "router : " + JSON.stringify(router);
+
+        Routers.create(router)
+
+          // if successful creation, call our get function to get all the new todos
+          .success(function(data) {
+            alert('added');
+            //$scope.loading = false;
+            //$scope.formData = {}; // clear the form so our user is ready to enter another
+            //$scope.todos = data; // assign our new list of todos
+          });
+
+      }
+      else{
+        $scope.share_router_state = 'none';//form.val:' + String(form.val) 'comparison :' + String(form.val).localeCompare('true');
+      };  
+  };
+
+  window.WifiWizard.getCurrentSSID(function(data) {	
         //this.a.demo=JSON.stringify(data);
         //document.write(JSON.stringify(data));
-        //alert(JSON.stringify(data));
+        
         set_ssid(data);
         //alert($scope);
     }, function(err) {
@@ -45,7 +72,7 @@ angular.module('app.controllers', [])
 // This method accepts a Position object, which contains the
 // current GPS coordinates
 //
-var onSuccess = function(position) {
+  var onSuccess = function(position) {
     alert('Latitude: '          + position.coords.latitude          + '\n' +
           'Longitude: '         + position.coords.longitude         + '\n' +
           'Altitude: '          + position.coords.altitude          + '\n' +
@@ -56,8 +83,8 @@ var onSuccess = function(position) {
           'Timestamp: '         + position.timestamp                + '\n');
 
     var longitude = position.coords.longitude;
-    var latitude = position.coords.latitude;
-    var latLong = new google.maps.LatLng(latitude, longitude);
+    var latitude  = position.coords.latitude;
+    var latLong   = new google.maps.LatLng(latitude, longitude);
 
     var mapOptions = {
         center: latLong,
@@ -66,19 +93,19 @@ var onSuccess = function(position) {
     };
 
     //var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    var div = document.getElementById("map_canvas");
-    var map = plugin.google.maps.Map.getMap(div);
-    map.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
-    
+    //var div = document.getElementById("map_canvas");
+   // var map = plugin.google.maps.Map.getMap(div);
+    //map.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
+
     //alert(map);
     var marker = new google.maps.Marker({
-          position: latLong,
-          map: map,
-          title: 'my location'
-      });
-};
+        position: latLong,
+        map: map,
+        title: 'my location'
+    });
+  };
 
-function onMapReady() {
+  function onMapReady() {
       var button = document.getElementById("button");
       button.addEventListener("click", onBtnClicked, false);
     }
@@ -109,37 +136,80 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
     });
    */
 
-})
+}])
+
    
-.controller('availableWiFiCtrl', function($scope) {
-$scope.$on('$ionicView.enter', function() {
+.controller('availableWiFiCtrl', ['$scope','$http','Routers', '$localstorage', function($scope, $http, Routers, $localstorage) {
+//$scope.$on('$ionicView.enter', function() {
 
-	  var a124 = function(data){
+  //var filtered_routers = [];
+  $scope.router_clicked = function(data,index){
+    //alert(JSON.stringify(data));
+    //alert(String(index));
+    //alert("localstorage2: " + JSON.stringify($localstorage.getObject("filtered_scan_routers")));
+    //alert("localstorage3: " + JSON.stringify($localstorage.getObject("filtered_db_routers")));
+    alert(JSON.stringify($localstorage.getObject("filtered_db_routers")[index]));
 
-		//alert("hi " + JSON.stringify(data));
-		$scope.routers = data;
-	};
+  };
+  
+	var show_data = function(data){
+    $scope.routers = data.scan;
+    $localstorage.setObject("filtered_scan_routers", data.scan);
+    $localstorage.setObject("filtered_db_routers", data.db);
+    /*alert("localstorage1: " + JSON.stringify($localstorage.getObject("filtered_scan_routers")));*/
+    //filtered_routers = data;
 
-	angular.element(document).ready(function () {
+  };
 
-	
-	var a123 = function(data){
 
-		a124(data);
-	};
-
-   window.WifiWizard.getScanResults(function(data) {	
+  window.WifiWizard.getScanResults(function(scan_data) {	
         //this.a.demo=JSON.stringify(data);
        // document.write(JSON.stringify(data));
        // alert(JSON.stringify(data));
-        a123(data);
-        //alert($scope);
+       var filtered_routers =[];
+       filtered_routers.scan = [];
+       filtered_routers.db   = [];
+       var filter_routers = function(db_data){
+          //alert("scan_data: " + JSON.stringify(scan_data));
+          for(var i=0; i < scan_data.length; i++){
+              //alert(scan_data[i].SSID);
+              var scan_ssid = '\"' + scan_data[i].SSID + '\"';
+             // alert(scan_ssid);
+              for(var j=0; j < db_data.length; j++){
+                  var db_ssid = db_data[j].ssid;
+                 // alert(db_ssid);
+
+                  if( scan_ssid == db_ssid ){
+                    //alert('here' + JSON.stringify(scan_data[i]));
+
+                    filtered_routers.scan.push(scan_data[i]);
+                    filtered_routers.db.push(db_data[j]);
+                   // alert('here2');
+                  };
+              };
+          };
+       };
+
+      Routers.get().success( function(db_data){
+          //alert("db_data : " + JSON.stringify(db_data));
+          filter_routers(db_data);
+          //alert('filtered_routers : ' + JSON.stringify(filtered_routers));
+          show_data_internal(filtered_routers);
+       });
+
+      var show_data_internal = function(data){
+        //alert('filtered_routers: ' + JSON.stringify(data) + ' \n typeof ' + typeof data );
+        //alert('filtered_routers[0]: ' + JSON.stringify(data[0]) + ' \n typeof ' + typeof data[0] );
+        //alert('filtered_routers[0].SSID: ' + data[0].SSID + ' \n typeof ' + typeof data[0].SSID );
+        show_data(data);
+      };
+     
     }, function(err) {
         //$scope.demo=JSON.stringify(err);
     })
 
-    });
-	});
+   
+	//});
 
-});
+}]);
  

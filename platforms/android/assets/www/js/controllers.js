@@ -10,12 +10,27 @@ angular.module('app.controllers', [])
 .controller('signupCtrl', function($scope) {
 
 })
-   
+.controller('account', function($scope) {
+
+})   
 
 .controller('addWiFiCtrl', ['$scope', 'Routers', function($scope, Routers) {
- 	var set_ssid = function(data){
+
+  $scope.$on('$ionicView.enter', function() {
+
+ 	var set_ssid = function(val,ssid){
 		//alert("hi " + JSON.stringify(data));
-		$scope.ssid = data;
+    alert('val:' + val + ' typeof ' + typeof val);
+    alert('ssid:' + ssid);
+    
+		$scope.ssid = ssid.replace(/^"(.*)"$/, '$1');
+    $scope.ssid_copy = ssid.replace(/^"(.*)"$/, '$1');
+    if( val == true ){
+      alert('checbox value : ' + $scope.form.val);
+      $scope.form.val=val;
+      alert('set');
+    };
+
 	};
 	var set_bssid = function(data){
 		//alert("hi " + JSON.stringify(data));
@@ -33,8 +48,8 @@ angular.module('app.controllers', [])
       if(form.val == 'true'){  
 
         router = [{
-                  "ssid"    :$scope.ssid,
-                  "bssid"   :$scope.ssid,
+                  "ssid"    : '\"' + $scope.ssid + '\"',
+                  "bssid"   : '\"' + $scope.ssid + '\"',
                   "password":form.pass,
                   }];
         $scope.share_router_state = "router : " + JSON.stringify(router);
@@ -55,20 +70,65 @@ angular.module('app.controllers', [])
       };  
   };
 
-  window.WifiWizard.getCurrentSSID(function(data) {	
+  cordova.plugins.hotspot.isConnectedToInternetViaWifi(
+    function () {
+       // is connected 
+      window.WifiWizard.getCurrentSSID(function(current_ssid) {  
         //this.a.demo=JSON.stringify(data);
         //document.write(JSON.stringify(data));
-        
-        set_ssid(data);
-        //alert($scope);
-    }, function(err) {
-        //$scope.demo=JSON.stringify(err);
-    }); 
+        alert("current ssid: " + current_ssid);
+        var check_router_registered = function(db_data){
+          //alert("scan_data: " + JSON.stringify(scan_data));
 
-   // onSuccess Callback
-// This method accepts a Position object, which contains the
-// current GPS coordinates
-//
+              for(var j=0; j < db_data.length; j++){
+                  var db_ssid = db_data[j].ssid;
+                 // alert(db_ssid);
+
+                  if( current_ssid == db_ssid ){
+                    //alert('here' + JSON.stringify(scan_data[i]));
+                    alert('present');
+                    return true;
+                    //filtered_routers.scan.push(scan_data[i]);
+                    //filtered_routers.db.push(db_data[j]);
+                   // alert('here2');
+                  };
+              };
+              return false;
+        
+        };
+
+      Routers.get().success( function(db_data){
+          //alert("db_data : " + JSON.stringify(db_data));
+          var val = check_router_registered(db_data);
+          //alert('filtered_routers : ' + JSON.stringify(filtered_routers));
+          show_data_internal(val);
+       });
+
+       var show_data_internal = function(val){
+          alert('show_data_internal + ' + val);
+          show_data_internal_2(val,current_ssid);
+       };
+
+       //ssid_exists(data);
+        //alert($scope);
+       }, function(err) {
+        //$scope.demo=JSON.stringify(err);
+       }); 
+      var show_data_internal_2 = function(val,ssid){
+          alert('show_data_internal_2 val+ ' + val);
+          alert('show_data_internal_2 ssid ' + ssid);
+          show_data_external(val,ssid);
+      };
+    },function () {
+       // is not connected 
+       alert('connect to internet via Wifi...');
+    });
+  
+  var show_data_external = function(val,ssid){
+        set_ssid(val,ssid);
+  };
+
+
   var onSuccess = function(position) {
     alert('Latitude: '          + position.coords.latitude          + '\n' +
           'Longitude: '         + position.coords.longitude         + '\n' +
@@ -132,11 +192,13 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
         //$scope.demo=JSON.stringify(err);
     });
    */
-
-}])
+   });
+ }])
 
    
 .controller('availableWiFiCtrl', ['$scope','$http','Routers', '$localstorage', function($scope, $http, Routers, $localstorage) {
+
+  $scope.$on('$ionicView.enter', function() {
 //$scope.$on('$ionicView.enter', function() {
 
   //var filtered_routers = [];
@@ -145,7 +207,20 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
     //alert(String(index));
     //alert("localstorage2: " + JSON.stringify($localstorage.getObject("filtered_scan_routers")));
     //alert("localstorage3: " + JSON.stringify($localstorage.getObject("filtered_db_routers")));
-    alert(JSON.stringify($localstorage.getObject("filtered_db_routers")[index]));
+    
+    var ssid = $localstorage.getObject("filtered_db_routers")[index].ssid.replace(/^"(.*)"$/, '$1');
+    var password = $localstorage.getObject("filtered_db_routers")[index].password;
+    alert(ssid);
+    alert(password);
+    cordova.plugins.hotspot.connectToHotspot(ssid, password, 
+      function () {
+       // connected 
+       alert('Connected !!');
+      },function () {
+       // not connected 
+       alert('Not Connected..');
+      }
+    );
 
   };
   
@@ -155,14 +230,13 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
     $localstorage.setObject("filtered_db_routers", data.db);
     /*alert("localstorage1: " + JSON.stringify($localstorage.getObject("filtered_scan_routers")));*/
     //filtered_routers = data;
-    
+
   };
 
-
-  window.WifiWizard.getScanResults(function(scan_data) {	
-        //this.a.demo=JSON.stringify(data);
-       // document.write(JSON.stringify(data));
-       // alert(JSON.stringify(data));
+  cordova.plugins.hotspot.scanWifiByLevel(
+   function (scan_data) {
+       // array of results 
+       alert(JSON.stringify(scan_data));
        var filtered_routers =[];
        filtered_routers.scan = [];
        filtered_routers.db   = [];
@@ -201,12 +275,16 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
         show_data(data);
       };
      
-    }, function(err) {
-        //$scope.demo=JSON.stringify(err);
-    })
+
+   },function (err) {
+       // error 
+   }
+);
+
+
 
    
 	//});
-
+  });
 }]);
  

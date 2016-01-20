@@ -65,7 +65,16 @@ angular.module('app.routes', [])
         }
       }
     })
-        
+       
+    .state('menu.account', {
+      url: '/account',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/account.html',
+          controller: 'account'
+        }
+      }
+    })    
       
     ;
 

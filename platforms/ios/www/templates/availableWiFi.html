@@ -1,4 +1,4 @@
-<ion-view title="Connect" hide-nav-bar="true" has-header="false">
+<ion-view title="Connect">
 
 
 <div class="tabs-striped tabs-background-positive tabs-color-light">
@@ -15,11 +15,27 @@
     </div>
   </div>
 
+<div class="bar bar-subheader">
+  <ul class="list">
+<li class="item item-toggle">
+     Auto Connect
+     <label class="toggle toggle-balanced">
 
-<ion-content overflow-scroll="true">
-<div class="list" ng-repeat="router in routers">
+       <input type="checkbox" ng-model="form.val" ng-change="change(form)" ng-true-value="'true'" ng-false-value="'false'" >
+       <div class="track">
+         <div class="handle" />
+       </div>
+     </label>
+  </li>
+</ul>
+</div>
+
+<ion-content overflow-scroll="true" class="has-subheader has-header has-footer">
+
+
+<div class="list card" ng-repeat="router in routers track by $index">
           
-    <a class="item item-avatar" href="#">
+    <a class="item item-avatar" ng-click="router_clicked(router,$index) "href="#">
       <img src="img/wifi-icon-1.png"></img>  
       <h2>{{router.SSID}}</h2>
       <p>{{router.level}}</p>

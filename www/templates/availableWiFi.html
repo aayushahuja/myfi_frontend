@@ -15,13 +15,30 @@
     </div>
   </div>
 
-<ion-content overflow-scroll="true">
+<div class="bar bar-subheader">
+  <ul class="list">
+<li class="item item-toggle">
+     Auto Connect
+     <label class="toggle toggle-balanced">
+
+       <input type="checkbox" ng-model="form.val" ng-change="change(form)" ng-true-value="'true'" ng-false-value="'false'" >
+       <div class="track">
+         <div class="handle" />
+       </div>
+     </label>
+  </li>
+</ul>
+</div>
+
+<ion-content overflow-scroll="true" class="has-subheader has-header has-footer">
+
+
 <div class="list card" ng-repeat="router in routers track by $index">
           
     <a class="item item-avatar" ng-click="router_clicked(router,$index) "href="#">
       <img src="img/wifi-icon-1.png"></img>  
       <h2>{{router.SSID}}</h2>
-      <p>{{router.level}}</p>
+      <p>Last seen speed ( 17/01/2016 ) : 2.3Mbps</p>
     </a>
 
     </div>

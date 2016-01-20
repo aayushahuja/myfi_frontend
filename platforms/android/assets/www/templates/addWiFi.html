@@ -13,7 +13,7 @@
   <div class="item item-avatar">
     <img src="img/avatar.jpg">
     <h2 ng-model="ssid">{{ssid}}</h2>
-    <p>network.BSSID}} , network.BSSID}}</p>
+    <p ng-model="ssid_copy">{{ssid_copy}} , {{ssid_copy}}</p>
   </div>
 
 
@@ -37,9 +37,9 @@
   
 </div>
 -->
-<div class="item range range-positive">
+<div class="item range range-balanced">
   <i class="icon ion-ios-circle-outline"></i>
-  <input type="range" name="volume">
+  <input type="range" name="volume" min="0" max="100" value="20">
   <i class="icon ion-ios-circle-filled"></i>
 </div>
 
