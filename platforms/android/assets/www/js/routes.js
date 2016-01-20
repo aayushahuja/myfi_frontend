@@ -79,6 +79,6 @@ angular.module('app.routes', [])
     ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/sideMenu/login');
+  $urlRouterProvider.otherwise('/sideMenu/availableWifi');
 
 });

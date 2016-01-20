@@ -20,15 +20,15 @@ angular.module('app.controllers', [])
 
  	var set_ssid = function(val,ssid){
 		//alert("hi " + JSON.stringify(data));
-    alert('val:' + val + ' typeof ' + typeof val);
-    alert('ssid:' + ssid);
+    //alert('val:' + val + ' typeof ' + typeof val);
+    //alert('ssid:' + ssid);
     
 		$scope.ssid = ssid.replace(/^"(.*)"$/, '$1');
     $scope.ssid_copy = ssid.replace(/^"(.*)"$/, '$1');
     if( val == true ){
-      alert('checbox value : ' + $scope.form.val);
+      //alert('checbox value : ' + $scope.form.val);
       $scope.form.val=val;
-      alert('set');
+      //alert('set');
     };
 
 	};
@@ -54,15 +54,49 @@ angular.module('app.controllers', [])
                   }];
         $scope.share_router_state = "router : " + JSON.stringify(router);
 
-        Routers.create(router)
+        var check_router_registered = function(db_data){
+          //alert("scan_data: " + JSON.stringify(scan_data));
 
-          // if successful creation, call our get function to get all the new todos
-          .success(function(data) {
-            alert('added');
-            //$scope.loading = false;
-            //$scope.formData = {}; // clear the form so our user is ready to enter another
-            //$scope.todos = data; // assign our new list of todos
-          });
+              for(var j=0; j < db_data.length; j++){
+                  var db_ssid = db_data[j].ssid;
+                 // alert(db_ssid);
+
+                  if( '\"' + $scope.ssid + '\"' == db_ssid ){
+                    //alert('here' + JSON.stringify(scan_data[i]));
+                    //alert('present');
+                    return 'true';
+                    //filtered_routers.scan.push(scan_data[i]);
+                    //filtered_routers.db.push(db_data[j]);
+                   // alert('here2');
+                  };
+              };
+              return 'false';
+        
+        };
+
+        Routers.get().success( function(db_data){
+          //alert("db_data : " + JSON.stringify(db_data));
+          var val = check_router_registered(db_data);
+          //alert('filtered_routers : ' + JSON.stringify(filtered_routers));
+
+          show_data_internal(val);
+        });
+        var show_data_internal = function(val){
+          if(val == 'false'){
+            Routers.create(router)
+
+            // if successful creation, call our get function to get all the new todos
+            .success(function(data) {
+              alert('Sharing started !');
+              //$scope.loading = false;
+              //$scope.formData = {}; // clear the form so our user is ready to enter another
+              //$scope.todos = data; // assign our new list of todos
+            });
+          }
+          else{
+              alert('Router is already being shared..');
+          } ; 
+        };
 
       }
       else{
@@ -76,7 +110,7 @@ angular.module('app.controllers', [])
       window.WifiWizard.getCurrentSSID(function(current_ssid) {  
         //this.a.demo=JSON.stringify(data);
         //document.write(JSON.stringify(data));
-        alert("current ssid: " + current_ssid);
+        //alert("current ssid: " + current_ssid);
         var check_router_registered = function(db_data){
           //alert("scan_data: " + JSON.stringify(scan_data));
 
@@ -86,7 +120,7 @@ angular.module('app.controllers', [])
 
                   if( current_ssid == db_ssid ){
                     //alert('here' + JSON.stringify(scan_data[i]));
-                    alert('present');
+                    //alert('present');
                     return true;
                     //filtered_routers.scan.push(scan_data[i]);
                     //filtered_routers.db.push(db_data[j]);
@@ -105,7 +139,7 @@ angular.module('app.controllers', [])
        });
 
        var show_data_internal = function(val){
-          alert('show_data_internal + ' + val);
+          //alert('show_data_internal + ' + val);
           show_data_internal_2(val,current_ssid);
        };
 
@@ -115,8 +149,8 @@ angular.module('app.controllers', [])
         //$scope.demo=JSON.stringify(err);
        }); 
       var show_data_internal_2 = function(val,ssid){
-          alert('show_data_internal_2 val+ ' + val);
-          alert('show_data_internal_2 ssid ' + ssid);
+          //alert('show_data_internal_2 val+ ' + val);
+          //alert('show_data_internal_2 ssid ' + ssid);
           show_data_external(val,ssid);
       };
     },function () {
@@ -210,8 +244,8 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
     
     var ssid = $localstorage.getObject("filtered_db_routers")[index].ssid.replace(/^"(.*)"$/, '$1');
     var password = $localstorage.getObject("filtered_db_routers")[index].password;
-    alert(ssid);
-    alert(password);
+    //alert(ssid);
+    //alert(password);
     cordova.plugins.hotspot.connectToHotspot(ssid, password, 
       function () {
        // connected 
@@ -236,7 +270,7 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
   cordova.plugins.hotspot.scanWifiByLevel(
    function (scan_data) {
        // array of results 
-       alert(JSON.stringify(scan_data));
+       //alert(JSON.stringify(scan_data));
        var filtered_routers =[];
        filtered_routers.scan = [];
        filtered_routers.db   = [];
