@@ -15,9 +15,11 @@ angular.module('app.controllers', [])
 })   
 
 .controller('addWiFiCtrl', ['$scope', 'Routers', function($scope, Routers) {
-
+  
+  //
   $scope.$on('$ionicView.enter', function() {
 
+    
  	var set_ssid = function(val,ssid){
 		//alert("hi " + JSON.stringify(data));
     //alert('val:' + val + ' typeof ' + typeof val);
@@ -103,7 +105,17 @@ angular.module('app.controllers', [])
         $scope.share_router_state = 'none';//form.val:' + String(form.val) 'comparison :' + String(form.val).localeCompare('true');
       };  
   };
-
+$scope.sliderRangeValue = 5;
+cordova.plugins.hotspot.scanWifiByLevel(
+   function (scan_data) {
+      display_scan_routers(scan_data.slice(1));
+   },function (err) {
+       // error 
+   }
+);
+  var display_scan_routers = function( scan_data ){
+    $scope.scan_routers = scan_data;
+  };
   cordova.plugins.hotspot.isConnectedToInternetViaWifi(
     function () {
        // is connected 
@@ -259,6 +271,7 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
   };
   
 	var show_data = function(data){
+
     $scope.routers = data.scan;
     $localstorage.setObject("filtered_scan_routers", data.scan);
     $localstorage.setObject("filtered_db_routers", data.db);
