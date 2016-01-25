@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'chart.js', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, Routers, $localdrive) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -18,8 +18,23 @@ angular.module('app', ['ionic', 'chart.js', 'app.controllers', 'app.routes', 'ap
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    //alert('here');
+    /*Routers.get().success( function(db_data){
+          //$localdrive.writeToFile("test.json",db_data);
+          //alert("db_data : " + JSON.stringify(db_data));
+    
+       });
+*/
+    $localdrive.readFromFile('test.json', function (data) {
+            fileData = data;
+            alert('got data' + JSON.stringify(data));
+            //show(fileData);
+    });
+
+
+
     //alert(cordova.file.cacheDirectory);
-    document.addEventListener('deviceready', onDeviceReady, false);  
+    /*document.addEventListener('deviceready', onDeviceReady, false);  
       function onDeviceReady() {  
         var errorHandler = function (fileName, e) {  
           var msg = '';
@@ -79,26 +94,12 @@ angular.module('app', ['ionic', 'chart.js', 'app.controllers', 'app.routes', 'ap
         //alert('here');
 
         function readFromFile(fileName, cb) {
-            var pathToFile = cordova.file.cacheDirectory + fileName;
-            alert('pathToFile: ' + pathToFile);
-            window.resolveLocalFileSystemURL(pathToFile, function (fileEntry) {
-              alert('insidewindow');
-                fileEntry.file(function (file) {
-                    var reader = new FileReader();
-
-                    reader.onloadend = function (e) {
-                        cb(JSON.parse(this.result));
-                    };
-                    alert('beforereadastext');
-                    reader.readAsText(file);
-                    alert('afterreadastext');
-                }, errorHandler.bind(null, fileName));
-            }, errorHandler.bind(null, fileName));
+            
         }
 
         var fileData;
         //alert('here2');
-        readFromFile('example.json', function (data) {
+        readFromFile('exampl2e.json', function (data) {
             fileData = data;
             show(fileData);
         });
@@ -107,7 +108,7 @@ angular.module('app', ['ionic', 'chart.js', 'app.controllers', 'app.routes', 'ap
         };
         
 
-     };   
+     };   */
  //   angular.module('app.controllers', [])
   //  var md = cordova.require("cordova/plugin_list").metadata;
 	//console.log(md);
