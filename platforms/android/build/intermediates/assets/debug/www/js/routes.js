@@ -52,7 +52,15 @@ angular.module('app.routes', [])
       }
     })
         
-      
+     .state('menu.credits', {
+      url: '/credits',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/credits.html',
+          controller: 'credits'
+        }
+      }
+    }) 
     
       
         

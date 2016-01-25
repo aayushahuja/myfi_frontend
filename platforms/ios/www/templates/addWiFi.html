@@ -1,4 +1,4 @@
-<ion-view title="Add WiFi">
+<ion-view title="Share WiFi">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         
 <!--        
@@ -11,9 +11,9 @@
     <div ng-model="form" class="list card">
 
   <div class="item item-avatar">
-    <img src="img/avatar.jpg">
+    <img src="img/wifi-icon-1.png">
     <h2 ng-model="ssid">{{ssid}}</h2>
-    <p ng-model="ssid_copy">{{ssid_copy}} , {{ssid_copy}}</p>
+    <p ng-model="ssid_copy">Detected speed : 1.2 Mbps</p>
   </div>
 
 
@@ -38,9 +38,10 @@
 </div>
 -->
 <div class="item range range-balanced">
-  <i class="icon ion-ios-circle-outline"></i>
-  <input type="range" name="volume" min="0" max="100" value="20">
-  <i class="icon ion-ios-circle-filled"></i>
+  <i class="icon ion-ios-speedometer-outline"></i>
+  <input type="range" name="volume" min="0" max="20" value="{{sliderRangeValue}}" ng-model="sliderRangeValue">
+
+  <i > {{sliderRangeValue}} Gb</i>
 </div>
 
 <ul class="item list assertive">
@@ -57,6 +58,18 @@
 </ul>
   
 </div>
+
+    
+    <a class="item item-avatar" ng-click="" href="#" ng-repeat="router in scan_routers track by $index" >
+      <img src="img/wifi-icon-1.png"></img>  
+      <h2>{{router.SSID}}</h2>
+      <p>Click to share..</p>
+    </a>
+
+<div class="item item-divider">
+        
+    </div>
+
 <!--div ng-model="share_router_state">
   sharing {{share_router_state}}
 </div>

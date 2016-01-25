@@ -52,7 +52,15 @@ angular.module('app.routes', [])
       }
     })
         
-      
+     .state('menu.credits', {
+      url: '/credits',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/credits.html',
+          controller: 'credits'
+        }
+      }
+    }) 
     
       
         
@@ -79,6 +87,6 @@ angular.module('app.routes', [])
     ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/sideMenu/login');
+  $urlRouterProvider.otherwise('/sideMenu/availableWifi');
 
 });

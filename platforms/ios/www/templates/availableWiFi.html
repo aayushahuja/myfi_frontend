@@ -1,4 +1,4 @@
-<ion-view title="Connect">
+<ion-view title="Myfi">
 
 
 <div class="tabs-striped tabs-background-positive tabs-color-light">
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-<div class="bar bar-subheader">
+<!--div class="bar bar-subheader">
   <ul class="list">
 <li class="item item-toggle">
      Auto Connect
@@ -28,20 +28,67 @@
      </label>
   </li>
 </ul>
-</div>
+</div-->
 
-<ion-content overflow-scroll="true" class="has-subheader has-header has-footer">
-
-
-<div class="list card" ng-repeat="router in routers track by $index">
+<!--ion-content overflow-scroll="true" class="has-subheader has-header has-footer"-->
+<ion-content overflow-scroll="true" class="has-header has-footer">
+  <!--div class="list">
+    <div class="item">
           
-    <a class="item item-avatar" ng-click="router_clicked(router,$index) "href="#">
+    </div> 
+    <div class="item item-divider">
+          Myfi Registered
+    </div>  
+  </div-->  
+
+
+<div class="list card" >
+        
+    <a class="item item-avatar" ng-repeat="router in routers track by $index" ng-click="router_clicked(router,$index) "href="#">
       <img src="img/wifi-icon-1.png"></img>  
       <h2>{{router.SSID}}</h2>
-      <p>{{router.level}}</p>
+      <p>1.2 Mbps ( 24/01/2016 )</p>
+    </a>
+    
+
+    <a class="item item-avatar" ng-click="" href="#">
+      <img src="img/ccd-logo-big.png"></img>  
+      <h2>CCD-1</h2>
+      <p>1.2 Mbps ( 16/01/2016 )</p>
     </a>
 
+    <a class="item item-avatar" ng-click="" href="#">
+      <img src="img/cafe-noir-logo.jpg"></img>  
+      <h2>Cafe Noir</h2>
+      <p>1.9 Mbps ( 18/01/2016 )</p>
+    </a>
+
+    <a class="item item-avatar" ng-click="" href="#">
+      <img src="img/dominos-logo.jpg"></img>  
+      <h2>Dominos</h2>
+      <p>1.3 Mbps ( 16/01/2016 )</p>
+    </a>
+
+    <a class="item item-avatar" ng-click="" href="#">
+      <img src="img/wifi-icon-1.png"></img>  
+      <h2>Direct Fi</h2>
+      <p>0.8 Mbps ( 19/01/2016 )</p>
+    </a>
+    
+</div>
+
+<!--div class="item item-divider">
+     Wifi Scan 
     </div>
+
+<div class="list card" ng-repeat="router in scan_routers track by $index">
+    
+    <a class="item item-avatar" ng-click="" href="#">
+      <img src="img/wifi-icon-1.png"></img>  
+      <h2>{{router.SSID}}</h2>
+      <p>Click to register..</p>
+    </a>
+</div-->
 
 </ion-content>
 

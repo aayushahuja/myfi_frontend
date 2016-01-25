@@ -13,13 +13,22 @@ angular.module('app.controllers', [])
 .controller('account', function($scope) {
 
 })   
+.controller('credits', function($scope) {
+    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+    $scope.series = ['Mb shared'];
+    $scope.data = [
+        [65, 59, 80, 81, 56, 55, 40],
+        //[28, 48, 40, 19, 86, 27, 90]
+    ];
+})
+
 
 .controller('addWiFiCtrl', ['$scope', 'Routers', function($scope, Routers) {
-  
+
   //
   $scope.$on('$ionicView.enter', function() {
 
-    
+
  	var set_ssid = function(val,ssid){
 		//alert("hi " + JSON.stringify(data));
     //alert('val:' + val + ' typeof ' + typeof val);
