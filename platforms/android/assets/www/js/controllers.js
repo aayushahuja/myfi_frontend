@@ -14,16 +14,16 @@ angular.module('app.controllers', [])
 
 })   
 .controller('credits', function($scope) {
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-    $scope.series = ['Mb shared'];
+    $scope.labels = ["October", "November", "December", "January",];
+    $scope.series = ['Credits earned'];
     $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
+        [0,0,0,200],
         //[28, 48, 40, 19, 86, 27, 90]
     ];
 })
 
 
-.controller('addWiFiCtrl', ['$scope', 'Routers', function($scope, Routers) {
+.controller('addWiFiCtrl', ['$scope', 'Routers', '$ionicPopup', function($scope, Routers, $ionicPopup) {
 
   //
   $scope.$on('$ionicView.enter', function() {
@@ -98,14 +98,30 @@ angular.module('app.controllers', [])
 
             // if successful creation, call our get function to get all the new todos
             .success(function(data) {
-              alert('Sharing started !');
+              var alertPopup = $ionicPopup.alert({
+                title: 'Success!',
+                template: ' Your wifi is being shared now..'
+              });
+
+              alertPopup.then(function(res) {
+          //console.log('Thank you for not eating my delicious ice cream cone');
+              });
+              //alert('Sharing started !');
               //$scope.loading = false;
               //$scope.formData = {}; // clear the form so our user is ready to enter another
               //$scope.todos = data; // assign our new list of todos
             });
           }
           else{
-              alert('Router is already being shared..');
+            var alertPopup = $ionicPopup.alert({
+              title: '',
+              template: ' Router is already being shared!'
+             });
+
+              alertPopup.then(function(res) {
+                console.log('Thank you for not eating my delicious ice cream cone');
+              });
+              //alert('Router is already being shared..');
           } ; 
         };
 
@@ -115,13 +131,13 @@ angular.module('app.controllers', [])
       };  
   };
 $scope.sliderRangeValue = 5;
-cordova.plugins.hotspot.scanWifiByLevel(
+  cordova.plugins.hotspot.scanWifiByLevel(
    function (scan_data) {
       display_scan_routers(scan_data.slice(1));
    },function (err) {
        // error 
    }
-);
+  );
   var display_scan_routers = function( scan_data ){
     $scope.scan_routers = scan_data;
   };
@@ -176,7 +192,16 @@ cordova.plugins.hotspot.scanWifiByLevel(
       };
     },function () {
        // is not connected 
-       alert('connect to internet via Wifi...');
+       var alertPopup = $ionicPopup.alert({
+        title: '',
+        template: ' Connect to router you want to share..'
+       });
+
+        alertPopup.then(function(res) {
+          console.log('Thank you for not eating my delicious ice cream cone');
+        });
+
+       //alert('connect to internet via Wifi...');
     });
   
   var show_data_external = function(val,ssid){
@@ -251,7 +276,7 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
  }])
 
    
-.controller('availableWiFiCtrl', ['$scope','$http','Routers', '$localstorage', function($scope, $http, Routers, $localstorage) {
+.controller('availableWiFiCtrl', ['$scope','$http','Routers', '$localstorage', '$ionicPopup', function($scope, $http, Routers, $localstorage, $ionicPopup) {
 
   $scope.$on('$ionicView.enter', function() {
 //$scope.$on('$ionicView.enter', function() {
@@ -270,17 +295,40 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
     cordova.plugins.hotspot.connectToHotspot(ssid, password, 
       function () {
        // connected 
-       alert('Connected !!');
+       //alert('Connected !!');
+       var alertPopup = $ionicPopup.alert({
+     title: 'You\'ve been connected!',
+     template: ' &nbsp; Go on, surf away!'
+   });
+
+   alertPopup.then(function(res) {
+     console.log('Thank you for not eating my delicious ice cream cone');
+   });
+
+      //remove_config();
+
       },function () {
        // not connected 
-       alert('Not Connected..');
+       var alertPopup = $ionicPopup.alert({
+     title: 'Not yet connected',
+     template: ' Try again...'
+   });
+
+   alertPopup.then(function(res) {
+     console.log('Thank you for not eating my delicious ice cream cone');
+   });
+       //alert('Not Connected..');
       }
     );
+
+    var remove_config = function(){
+      WifiWizard.removeNetwork(ssid, function(){alert('removed')}, function(){alert('not removed');
+    })};
 
   };
   
 	var show_data = function(data){
-
+    //alert(JSON.stringify(data.scan));
     $scope.routers = data.scan;
     $localstorage.setObject("filtered_scan_routers", data.scan);
     $localstorage.setObject("filtered_db_routers", data.db);
@@ -288,16 +336,16 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
     //filtered_routers = data;
 
   };
-
+/*
   var show_scan_all_data = function(data){
     $scope.scan_routers = data;
     //$localstorage.setObject("filtered_scan_routers", data.scan);
     //$localstorage.setObject("filtered_db_routers", data.db);
-    /*alert("localstorage1: " + JSON.stringify($localstorage.getObject("filtered_scan_routers")));*/
+    /*alert("localstorage1: " + JSON.stringify($localstorage.getObject("filtered_scan_routers")));
     //filtered_routers = data;
 
   };
-
+*/
   cordova.plugins.hotspot.scanWifiByLevel(
    function (scan_data) {
        // array of results 
@@ -308,6 +356,7 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
        filtered_routers.db   = [];
        var filter_routers = function(db_data){
           //alert("scan_data: " + JSON.stringify(scan_data));
+          //alert('db_data ' + JSON.stringify(db_data));
           for(var i=0; i < scan_data.length; i++){
               //alert(scan_data[i].SSID);
               var scan_ssid = '\"' + scan_data[i].SSID + '\"';
@@ -327,21 +376,25 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
           };
        };
 
-      Routers.get().success( function(db_data){
+      //Routers.get().success( function(db_data){
           //alert("db_data : " + JSON.stringify(db_data));
-          filter_routers(db_data);
-          //alert('filtered_routers : ' + JSON.stringify(filtered_routers));
-          show_data_internal(filtered_routers);
-       });
-
+     // alert('hi');    
+      var localstorage_routers = $localstorage.getObject("registered_routers");
+      //alert(lo)    
+      filter_routers(localstorage_routers);
+      //alert('here');
+      //alert('localstorge_routers : ' + JSON.stringify(localstorage_routers));
+      show_data(filtered_routers);
+       //});
+/*
       var show_data_internal = function(data){
-        //alert('filtered_routers: ' + JSON.stringify(data) + ' \n typeof ' + typeof data );
+        alert('filtered_routers: ' + JSON.stringify(data) + ' \n typeof ' + typeof data );
         //alert('filtered_routers[0]: ' + JSON.stringify(data[0]) + ' \n typeof ' + typeof data[0] );
         //alert('filtered_routers[0].SSID: ' + data[0].SSID + ' \n typeof ' + typeof data[0].SSID );
         show_data(data);
       };
-     
-      show_scan_all_data(scan_data);
+     */
+     // show_scan_all_data(scan_data);
    },function (err) {
        // error 
    }

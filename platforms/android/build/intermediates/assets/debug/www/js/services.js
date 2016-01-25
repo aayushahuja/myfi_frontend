@@ -41,9 +41,9 @@ angular.module('app.services', [])
 
 .factory('$localdrive', ['$window','Routers', function($window) {
 	var obj = {};
-	obj.errorHandler = function(filename, e) {
+	obj.errorHandler = function(filename, ecb, e) {
   		var msg = '';
-  		//alert('ger' + JSON.stringify(e));
+  		//alert('ger ' + JSON.stringify(e)+ " ecb: " + ecb + " filename " + filename);
   		// fileName passing not working
           switch (e.code) {
               case FileError.QUOTA_EXCEEDED_ERR:
@@ -51,6 +51,7 @@ angular.module('app.services', [])
                   break;
               case FileError.NOT_FOUND_ERR:
                   msg = 'File not found';
+                  ecb();
                   break;
               case FileError.SECURITY_ERR:
                   msg = 'Security error';
@@ -70,7 +71,7 @@ angular.module('app.services', [])
   	//	$window.localStorage[key] = value;
     };
 
-    obj.writeToFile = function(fileName, data) {
+    obj.writeToFile = function(fileName, data, ecb) {
     	data = JSON.stringify(data, null, '\t');
             //alert('data: ' + data)
             $window.resolveLocalFileSystemURL(cordova.file.cacheDirectory, function (directoryEntry) {
@@ -91,14 +92,14 @@ angular.module('app.services', [])
                         //alert('before blob');
                         var blob = new Blob([data], { type: 'text/plain' });
                         fileWriter.write(blob);
-                    }, obj.errorHandler.bind(null, fileName));
-                }, obj.errorHandler.bind(null, fileName));
-            }, obj.errorHandler.bind(null, fileName));
+                    }, obj.errorHandler.bind(null, fileName, ecb));
+                }, obj.errorHandler.bind(null, fileName, ecb));
+            }, obj.errorHandler.bind(null, fileName, ecb));
 
       
     };
 
-    obj.readFromFile = function(fileName, cb) {
+    obj.readFromFile = function(fileName, cb, ecb) {
     	var pathToFile = cordova.file.cacheDirectory + fileName;
            // alert('pathToFile: ' + pathToFile);
             $window.resolveLocalFileSystemURL(pathToFile, function (fileEntry) {
@@ -112,8 +113,8 @@ angular.module('app.services', [])
                    // alert('beforereadastext');
                     reader.readAsText(file);
                    // alert('afterreadastext');
-                }, obj.errorHandler.bind(null, fileName));
-            }, obj.errorHandler.bind(null, fileName));
+                }, obj.errorHandler.bind(null, fileName, ecb));
+            }, obj.errorHandler.bind(null, fileName, ecb));
       
     };
 

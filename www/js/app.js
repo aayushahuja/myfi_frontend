@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'chart.js', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
-.run(function($ionicPlatform, Routers, $localdrive) {
+.run(function($ionicPlatform, Routers, $localdrive, $localstorage, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -25,12 +25,35 @@ angular.module('app', ['ionic', 'chart.js', 'app.controllers', 'app.routes', 'ap
     
        });
 */
+    cordova.plugins.hotspot.isConnectedToInternet(
+      function(){
+        //alert('isConnectedToInternet');
+        Routers.get().success( function(db_data){
+          $localdrive.writeToFile("myfi_details.json", db_data);
+          $localstorage.setObject("registered_routers", db_data);
+          //alert("db_data : " + JSON.stringify(db_data));
+          //alert('updated');
+          //alert('test');
+          //var test = $localstorage.getObject("registered_routers");
+          //alert("test: " + JSON.stringify(test));
     
-    $localdrive.readFromFile('test.json', function (data) {
-            fileData = data;
-            alert('got data' + JSON.stringify(data));
+       });
+      },function(){
+        $localdrive.readFromFile('myfi_details.json', function (data) {
+            //fileData = data;
+            //alert('got data' + JSON.stringify(data));
+            $localstorage.setObject("registered_routers", data);
             //show(fileData);
-    });
+        }, function(){
+            alert('need to connect to net to initialize');
+        });
+      }
+
+
+    );
+
+    //$state.go('menu.credits');
+    
 
 
 
