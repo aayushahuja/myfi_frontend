@@ -12,7 +12,8 @@ angular.module('app.routes', [])
     .state('menu', {
       url: '/sideMenu',
       abstract:true,
-      templateUrl: 'templates/menu.html'
+      templateUrl: 'templates/menu.html',
+      controller: 'menuCtrl'
     })
       
     
@@ -31,14 +32,14 @@ angular.module('app.routes', [])
       
     
       
-        
+        /*
     .state('signup', {
       url: '/signup',
       templateUrl: 'templates/signup.html',
       controller: 'signupCtrl'
     })
         
-      
+      */
     
       
         

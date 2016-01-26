@@ -1,15 +1,115 @@
 angular.module('app.controllers', [])
      
-.controller('loginCtrl', function($scope) {
+.controller('loginCtrl', [ '$scope', 'Users', '$ionicSideMenuDelegate', '$ionicPopup', '$localdrive', '$localstorage', '$state', function($scope, Users, $ionicSideMenuDelegate, $ionicPopup, $localdrive, $localstorage, $state) {
 	//var a = function(){}
 	//var a = $scope;
 	//$scope.demo = "aayush";
+  //$state.go('menu.credits');
+  var goto_next_view = function(){
+    //alert('here');
+    $state.go('menu.availableWiFi');
+  };
+  $scope.submit = function(form) {
+    var name      = form.name;
+    var phone     = form.phone;
+    var password  = form.password;
+    user = [{
+              "name"    : name,
+              "phone"   : phone,
+              "password": password,
+              }];
+        //$scope.share_router_state = "router : " + JSON.stringify(router);
 
-})
+    var check_user_registered = function(db_data){
+      //alert("scan_data: " + JSON.stringify(scan_data));
+
+          for(var j=0; j < db_data.length; j++){
+              var db_name   = db_data[j].name;
+              var db_phone  = db_data[j].phone;
+             // alert(db_ssid);
+
+              if( form.phone == db_phone ){
+                //alert('here' + JSON.stringify(scan_data[i]));
+                //alert('present');
+                return 'true';
+                //filtered_routers.scan.push(scan_data[i]);
+                //filtered_routers.db.push(db_data[j]);
+               // alert('here2');
+              };
+          };
+          return 'false';
+    
+    };
+
+    Users.get().success( function(db_data){
+      //alert("db_data : " + JSON.stringify(db_data));
+      var val = check_user_registered(db_data);
+      //alert('filtered_routers : ' + JSON.stringify(filtered_routers));
+
+      show_data_internal(val);
+    });
+
+    var show_data_internal = function(val){
+      if(val == 'false'){
+        Users.create(user)
+
+        // if successful creation, call our get function to get all the new todos
+        .success(function(data) {
+          var alertPopup = $ionicPopup.alert({
+            title: 'Success!',
+            template: ' You\'re registered now'
+          });
+
+          alertPopup.then(function(res) {
+            $ionicSideMenuDelegate.canDragContent(true);
+            goto_next_view();
+          });
+          //alert('Sharing started !');
+          //$scope.loading = false;
+          //$scope.formData = {}; // clear the form so our user is ready to enter another
+          //$scope.todos = data; // assign our new list of todos
+        });
+      }
+      else{
+        var alertPopup = $ionicPopup.alert({
+          title: '',
+          template: ' User already registered!'
+         });
+
+          alertPopup.then(function(res) {
+            $ionicSideMenuDelegate.canDragContent(true);
+            goto_next_view();
+          });
+          //alert('Router is already being shared..');
+      };
+
+      $localdrive.writeToFile("current_user.json", user);
+      $localstorage.setObject("current_user", user);
+
+    };
+
+       
+  };
+  
+  $ionicSideMenuDelegate.canDragContent(false);
+
+}])
    
 .controller('signupCtrl', function($scope) {
 
 })
+
+.controller('menuCtrl', [ '$scope', '$localstorage', '$localdrive', function($scope, $localstorage) {
+  $scope.$on('$ionicView.enter', function() {
+    var current_user = $localstorage.getObject("current_user");
+
+
+    //alert(JSON.stringify(current_user));
+    //alert(current_user[0].name);
+    $scope.user = current_user[0];
+  });
+}])
+
 .controller('account', function($scope) {
 
 })   
@@ -43,6 +143,7 @@ angular.module('app.controllers', [])
     };
 
 	};
+  /*
 	var set_bssid = function(data){
 		//alert("hi " + JSON.stringify(data));
 		$scope.bssid = data;
@@ -51,6 +152,7 @@ angular.module('app.controllers', [])
 		//alert("hi " + JSON.stringify(data));
 		$scope.network = data;
 	};
+  */
 
   $scope.change = function(form) {
       //alert(JSON.stringify(form.val));
@@ -63,7 +165,7 @@ angular.module('app.controllers', [])
                   "bssid"   : '\"' + $scope.ssid + '\"',
                   "password":form.pass,
                   }];
-        $scope.share_router_state = "router : " + JSON.stringify(router);
+        //$scope.share_router_state = "router : " + JSON.stringify(router);
 
         var check_router_registered = function(db_data){
           //alert("scan_data: " + JSON.stringify(scan_data));
@@ -127,7 +229,7 @@ angular.module('app.controllers', [])
 
       }
       else{
-        $scope.share_router_state = 'none';//form.val:' + String(form.val) 'comparison :' + String(form.val).localeCompare('true');
+       // $scope.share_router_state = 'none';//form.val:' + String(form.val) 'comparison :' + String(form.val).localeCompare('true');
       };  
   };
 $scope.sliderRangeValue = 5;

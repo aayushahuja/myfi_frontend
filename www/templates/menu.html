@@ -18,10 +18,10 @@
 
     
     
-        <div class="item item-avatar" href="#">
+        <div class="item item-avatar" href="#" ng-model="user">
             <img src="img/avatar.jpg">
-            <h2>Aayush</h2>
-            <p>8971353311</p>
+            <h2>{{user.name}}</h2>
+            <p>{{user.phone}}</p>
             </div>
   
        
@@ -32,7 +32,7 @@
                     <a class="item item-icon-left" href="#/sideMenu/availableWifi" menu-close="">
     <i class="icon ion-wifi"></i>
     Myfi
-    <span class="badge badge-balanced">5</span>
+    <!--span class="badge badge-balanced">5</span-->
   </a>
 
     <a class="item item-icon-left" href="#/sideMenu/addWifi" menu-close="">

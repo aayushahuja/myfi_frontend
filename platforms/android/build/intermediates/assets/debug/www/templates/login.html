@@ -1,23 +1,28 @@
-<ion-view title="Login">
+<ion-view title="Login" hide-nav-bar="true">
+    <div class="spacer" style="height: 40px;"></div>
+    <div class="bar bar-positive bar-header" style="height: 50px;">
+        <h1 class="title">Myfi</h1>
+    </div>
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <!--div class="col col-offset-33"-->
-        <form class="list">
+        <div class="spacer" style="height: 40px;"></div>
+        <form class="list" ng-model="user_form">
             <ion-list>
                 <label class="item item-input item-floating-label">
                     <span class="input-label">Name</span>
-                    <input type="text" placeholder="Name">
+                    <input type="text" placeholder="Name" ng-model="user_form.name">
                 </label>
                 <label class="item item-input item-floating-label">
                     <span class="input-label">Phone Number</span>
-                    <input type="number" placeholder="Phone Number">
+                    <input type="number" placeholder="Phone Number" ng-model="user_form.phone">
                 </label>
                 <label class="item item-input item-floating-label">
                     <span class="input-label">Password</span>
-                    <input type="password" placeholder="Password">
+                    <input type="password" placeholder="Password" ng-model="user_form.password">
                 </label>
             </ion-list>
             <div class="spacer" style="height: 40px;"></div>
-            <button class="button button-stable button-block ">Signup</button>
+            <button class="button button-positive button-block button-outline " ng-click="submit(user_form)">Login</button>
             <!--a href="#" onclick="window.open('/signup', '_system', 'location=yes'); return false;" class="button button-positive button-clear button-block ">Or create an account</a-->
         </form>
         <!--/div-->

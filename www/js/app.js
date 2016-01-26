@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'chart.js', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
-.run(function($ionicPlatform, Routers, $localdrive, $localstorage, $state) {
+.run(function($ionicPlatform, Routers, $localdrive, $localstorage, $state, $ionicSideMenuDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -51,6 +51,23 @@ angular.module('app', ['ionic', 'chart.js', 'app.controllers', 'app.routes', 'ap
 
 
     );
+
+  var goto_next_view = function(){
+      //alert('here');
+      $state.go('menu.availableWiFi');
+    };
+    $localdrive.readFromFile('current_user.json', function (data) {
+            //fileData = data;
+            //alert('got data' + JSON.stringify(data));
+            //alert(data);
+            $localstorage.setObject("current_user", data);
+            //show(fileData);
+            $ionicSideMenuDelegate.canDragContent(true);
+            goto_next_view();
+
+        }, function(){
+            //alert('need to connect to net to initialize');
+        });
 
     //$state.go('menu.credits');
     

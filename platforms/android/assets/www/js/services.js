@@ -22,6 +22,20 @@ angular.module('app.services', [])
 		}
 }])
 
+.factory('Users', ['$http',function($http) {
+		return {
+			get : function() {
+				return $http.get('http://ec2-54-179-153-152.ap-southeast-1.compute.amazonaws.com:8080/api/users');
+			},
+			create : function(userData) {
+				return $http.post('http://ec2-54-179-153-152.ap-southeast-1.compute.amazonaws.com:8080/api/users', userData);
+			},
+			delete : function(id) {
+				return $http.delete('http://ec2-54-179-153-152.ap-southeast-1.compute.amazonaws.com:8080/api/users/' + id);
+			}
+		}
+}])
+
 .factory('$localstorage', ['$window', function($window) {
   return {
     set: function(key, value) {
