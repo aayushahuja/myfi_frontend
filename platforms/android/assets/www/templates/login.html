@@ -5,7 +5,10 @@
     </div>
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <!--div class="col col-offset-33"-->
-        <div class="spacer" style="height: 40px;"></div>
+        <!--div class="spacer" style="height: 40px;"></div-->
+        <div class = "col header text-center">
+           <img src="./img/icon.jpg" style="height: 120px;width: 120px;" class = "logo" />
+        </div>
         <form class="list" ng-model="user_form">
             <ion-list>
                 <label class="item item-input item-floating-label">
@@ -22,7 +25,7 @@
                 </label>
             </ion-list>
             <div class="spacer" style="height: 40px;"></div>
-            <button class="button button-positive button-block button-outline " ng-click="submit(user_form)">Login</button>
+            <button class="button button-positive button-block button-outline " ng-click="submit(user_form)">Signup</button>
             <!--a href="#" onclick="window.open('/signup', '_system', 'location=yes'); return false;" class="button button-positive button-clear button-block ">Or create an account</a-->
         </form>
         <!--/div-->

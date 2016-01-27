@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="/Users/aayush/Documents/projects/ionic/myfi_frontend/platforms/android/build/intermediates/exploded-aar/android/CordovaLib/unspecified/release/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e0d55af5318fdace64edd8756ba1b70a876ee7bb">
+        <dex dex="/Users/aayush/Documents/projects/ionic/myfi_frontend/platforms/android/build/intermediates/pre-dexed/release/classes-dba6c14220667927d22a92fb638c14536cbee0dd.jar" />
+    </item>
+    <item
         jar="/Users/aayush/Documents/projects/ionic/myfi_frontend/platforms/android/build/intermediates/exploded-aar/android/CordovaLib/unspecified/debug/classes.jar"
         jumboMode="false"
         revision="20.0.0"
