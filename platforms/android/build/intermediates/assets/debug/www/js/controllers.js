@@ -129,6 +129,19 @@ angular.module('app.controllers', [])
   $scope.$on('$ionicView.enter', function() {
 
 
+    $scope.toggleRouter = function(router) {
+      if ($scope.isRouterShown(router)) {
+        $scope.shownRouter = null;
+      } else {
+        $scope.shownRouter = router;
+      }
+    };
+  $scope.isRouterShown = function(router) {
+    return $scope.shownRouter === router;
+  };
+  
+   
+
  	var set_ssid = function(val,ssid){
 		//alert("hi " + JSON.stringify(data));
     //alert('val:' + val + ' typeof ' + typeof val);
@@ -235,7 +248,7 @@ angular.module('app.controllers', [])
 $scope.sliderRangeValue = 5;
   cordova.plugins.hotspot.scanWifiByLevel(
    function (scan_data) {
-      display_scan_routers(scan_data.slice(1));
+      display_scan_routers(scan_data);
    },function (err) {
        // error 
    }

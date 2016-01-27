@@ -1,70 +1,60 @@
 <ion-view title="Share WiFi">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         
-<!--        
-        <ion-list>
-      <ion-item ng-repeat="router in routers">
-        {{router.SSID + " " + router.level}}
-      </ion-item>
-    </ion-list>
--->    
-    <div ng-model="form" class="list card">
 
-  <div class="item item-avatar">
-    <img src="img/wifi-icon-1.png">
-    <h2 ng-model="ssid">{{ssid}}</h2>
-    <p ng-model="ssid_copy">Detected speed : 1.2 Mbps</p>
-  </div>
-
-
-  <div class="list">
-    <label class="item item-input item-floating-label">
-      <span class="input-label">Password</span>
-      <input ng-model="form.pass" type="Password" placeholder="Password"/>
-      {{pass}}
-    </label>
-  
-  </div>
-
-
-
-<!--
- <div class="list">
-  <label class="item item-input item-floating-label">
-    <span class="input-label">Location</span>
-    <input type="text" placeholder="Location">
-  </label>
-  
-</div>
--->
-<div class="item range range-balanced">
-  <i class="icon ion-ios-speedometer-outline"></i>
-  <input type="range" name="volume" min="0" max="20" value="{{sliderRangeValue}}" ng-model="sliderRangeValue">
-
-  <i > {{sliderRangeValue}} Gb</i>
-</div>
-
-<ul class="item list assertive">
-<li class="item item-toggle">
-     Start sharing
-     <label class="toggle toggle-balanced">
-
-       <input type="checkbox" ng-model="form.val" ng-change="change(form)" ng-true-value="'true'" ng-false-value="'false'" >
-       <div class="track">
-         <div class="handle" />
-       </div>
-     </label>
-  </li>
-</ul>
-  
-</div>
-
-    
-    <a class="item item-avatar" ng-click="" href="#" ng-repeat="router in scan_routers track by $index" >
-      <img src="img/wifi-icon-1.png"></img>  
+  <div ng-model="form" class="list card" ng-repeat="router in scan_routers track by $index">
+    <a class="item item-avatar" href="#"  ng-click="toggleRouter(router)"
+                    ng-class="{active: isRouterShown(router)}" >
+      <img src="img/wifi-icon-1.png"></img>
+      <!--i class="icon" ng-class="isRouterShown(router) ? 'ion-wifi' : 'ion-plus'"></i-->  
       <h2>{{router.SSID}}</h2>
       <p>Click to share..</p>
     </a>
+
+    <div class="item-accordion"                  
+                    ng-show="isRouterShown(router)">
+        <div class="list">
+            <label class="item item-input item-floating-label">
+              <span class="input-label">Password</span>
+              <input ng-model="form.pass" type="Password" placeholder="Password"/>
+              {{pass}}
+            </label>
+          
+          </div>
+
+        <!--
+         <div class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Location</span>
+            <input type="text" placeholder="Location">
+          </label>
+          
+        </div>
+        -->
+        <div class="item range range-balanced">
+          <i class="icon ion-ios-speedometer-outline"></i>
+          <input type="range" name="volume" min="0" max="20" value="{{sliderRangeValue}}" ng-model="sliderRangeValue">
+
+          <i > {{sliderRangeValue}} Gb</i>
+        </div>
+
+        <ul class="item list assertive">
+        <li class="item item-toggle">
+             Start sharing
+             <label class="toggle toggle-balanced">
+
+               <input type="checkbox" ng-model="form.val" ng-change="change(form)" ng-true-value="'true'" ng-false-value="'false'" >
+               <div class="track">
+                 <div class="handle" />
+               </div>
+             </label>
+          </li>
+        </ul>
+    </div>
+
+  </div>
+  <!--/ion-list-->
+
 
 <div class="item item-divider">
         
